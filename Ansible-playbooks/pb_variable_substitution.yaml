@@ -7,10 +7,10 @@
   gather_facts: '{{ gather }}'
   vars:
     myhosts: centos
-	gather: yes
-	pkg: telnet
+      gather: yes
+      pkg: telnet
   tasks:
     name: install the indicated software in variable 
-	yum:
-	  name: '{{ pkg }}'
-	  state: latest
+      yum:
+        name: '{{ pkg }}'
+        state: latest
