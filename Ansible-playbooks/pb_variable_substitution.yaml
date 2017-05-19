@@ -1,0 +1,16 @@
+---
+- hosts: '{{ myhosts }}'
+  remote_user: ansible
+  become: yes
+  become_methos: sudo
+  connection: ssh
+  gather_facts: '{{ gather }}'
+  vars:
+    myhosts: centos
+	gather: yes
+	pkg: telnet
+  tasks:
+    name: install the indicated software in variable 
+	yum:
+	  name: '{{ pkg }}'
+	  state: latest
