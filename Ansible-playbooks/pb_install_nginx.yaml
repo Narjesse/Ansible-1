@@ -1,33 +1,24 @@
 ---
-- hosts: centos
-  remote_user: ansible
-  become: yes
-  become_method: sudo
-  connection: ssh
-  gather_facts: yes
-  vars:
-   - docroot: /var/www/foxutech.com/public
-  tasks:
-   - name: Add Nginx Repository
-     apt_repository: repo='ppa:nginx/stable' state=present
-     register: ppastable
+ - hosts:
+     - << IP >>
+   gather_facts: no
+   tasks:
+     - name: install web server
+       yum: name=httpd state=present
+#       apt: name-apache2 state=present
+       tags: install
+     - name: install index page
+       copy: src=/root/index.html dest=/var/www/html/index.html backup=yes
+       tags: configure
+       notify: restart httpd
+   handlers:
+     - name: restart httpd
+       service: name=httpd state=restarted
+#       service: name=apache2 state=restarted
 
-   - name: Install Nginx
-     apt: pkg=nginx state=installed update_cache=true
-     when: ppastable|success
-     register: nginxinstalled
-     notify:
-      - Start Nginx
-
-   - name: Create Web Root
-     when: nginxinstalled|success
-     file: dest={{ '{{' }} docroot {{ '}}' }} mode=775 state=directory owner=www-data group=www-data
-     notify:
-      - Reload Nginx
-
-  handlers:
-   - name: Start Nginx
-     service: name=nginx state=started
-
-   - name: Reload Nginx
-     service: name=nginx state=reloaded
+ - hosts:
+     - local
+   gather_facts: no
+   tasks:
+     - name: install mysql server
+       yum: name=mysql-server state=present
