@@ -2,13 +2,13 @@
 - hosts: all
   user: root
 
-#  vars:
-#    users:
-#      - username: galya
-#        use_sudo: no
+  vars:
+    users:
+     - username: user1
+       use_sudo: no
 
-#      - username: kolya
-#        use_sudo: yes
+     - username: user2
+       use_sudo: yes
 
   tasks:
   - include_vars: users.yml
