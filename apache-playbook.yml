@@ -1,0 +1,32 @@
+- name: apache and module installation
+  hosts: localhost
+  vars:
+#####################################################
+# Example of how to load another Apache modules
+    apache_config_modules__custom:
+      # That's the first module
+      - LoadModule:
+        - my_first_module
+        - modules/mod_my_first.so
+      # That's the second module
+      - LoadModule:
+        - my_second_module
+        - modules/mod_my_second.so
+####################################################
+# Example of how to create a new vhost file
+    apache_vhost_config__custom:
+      # This is the name of the vhost file
+      www.example.com:
+        content:
+          - sections:
+            - name: VirtualHost
+              param: "*:80"
+              content:
+                - options:
+                  - DocumentRoot: /www/example1
+                  - ServerName: www.example.com
+                - options:
+                  # This is actually a comment
+                  - "#": Other directives here ...
+  roles:
+    - apache
