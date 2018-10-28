@@ -1,0 +1,9 @@
+---
+- name: Provision a Jenkins CI server
+  hosts: all
+  become: yes
+  become_user: ubuntu
+  vars:
+    - update_apt_cache: yes
+  roles:
+    - jenkins
